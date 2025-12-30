@@ -13,3 +13,9 @@ jobs:
         run: |
           echo "Hello World!"
           echo "Welcome to GitHub Actions!"
+      - name: Now it is
+        run: |
+          date
+      - name: Directory listing
+        run: |
+          ls -l
