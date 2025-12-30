@@ -5,8 +5,8 @@ on:
     branches:
       - main
   pull_request:
-    branches: [main]
-    types: [opened, synchronize]
+    branches: [ main ]
+    types: [ opened, synchronize ]
 
 jobs:
   simple_deployment_pipeline:
@@ -27,3 +27,13 @@ jobs:
       - name: Deploy
         if: ${{ github.event_name == 'push' }}
         run: echo "Deploying to production..."
+  tag_release:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.75.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
